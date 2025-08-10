@@ -56,7 +56,7 @@ const Signup = () => {
 
     try {
       const response = await fetch(
-        "https://digital-competency-platform-server.onrender.com/api/v1/auth/createUser",
+        `${import.meta.env.VITE_BASE_URL}/auth/createUser`,
         {
           method: "POST",
           body: formData,

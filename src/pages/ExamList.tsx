@@ -18,7 +18,7 @@ const ExamsList: React.FC = () => {
     const token = localStorage.getItem("approvalToken");
     axios
       .get<{ success: boolean; data: Exam[] }>(
-        "https://digital-competency-platform-server.onrender.com/api/v1/exams/all",
+        `${import.meta.env.VITE_BASE_URL}/exams/all`,
         {
           headers: {
             Authorization: `${token}`,

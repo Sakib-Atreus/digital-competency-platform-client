@@ -34,7 +34,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        "https://digital-competency-platform-server.onrender.com/api/v1/auth/login",
+        `${import.meta.env.VITE_BASE_URL}/auth/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

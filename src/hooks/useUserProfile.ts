@@ -22,7 +22,7 @@ const useUserProfile = () => {
     const token = localStorage.getItem("approvalToken");
     axios
       .get(
-        "https://digital-competency-platform-server.onrender.com/api/v1/users/getProfile",
+        `${import.meta.env.VITE_BASE_URL}/users/getProfile}`,
         {
           headers: { Authorization: `${token}` },
         }
