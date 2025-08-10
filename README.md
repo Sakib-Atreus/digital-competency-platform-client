@@ -1,54 +1,80 @@
-# React + TypeScript + Vite
+# Digital Competency Platform - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the React frontend application for the Digital Competency Platform.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Table of Contents
 
-## Expanding the ESLint configuration
+- [Project Overview](#project-overview)  
+- [Prerequisites](#prerequisites)  
+- [Installation](#installation)  
+- [Running the Application Locally](#running-the-application-locally)  
+- [Environment Variables](#environment-variables)  
+- [Features](#features)  
+- [License](#license)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Project Overview
+
+This React app serves as the user interface for the Digital Competency Platform, allowing users to register, take exams, view results, and manage their profiles.
+
+---
+
+## Prerequisites
+
+Make sure you have the following installed on your system:
+
+- Node.js (v16 or later)  
+- npm or yarn  
+- Git  
+
+---
+
+## Installation
+
+### Clone the frontend repository
+
+```bash
+git clone https://github.com/Sakib-Atreus/digital-competency-platform-frontend.git
+cd digital-competency-platform-frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+```bash
+# Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+npm install
+# or
+yarn install
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```
+
+```bash
+# Environment Variables
+Create a .env file in the root directory with the following environment variables:
+
+env
+
+REACT_APP_API_BASE_URL=http://localhost:5000/api/v1
+
+```
+
+```bash
+
+Running the Application Locally
+Start the React development server:
+
+```
+
+```bash
+
+npm run start
+# or
+yarn start
+
+#The app will be available at:
+
+http://localhost:5173
+
 ```
