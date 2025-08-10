@@ -78,7 +78,7 @@
 
 //     axios
 //       .get<{ success: boolean; data: Question[] }>(
-//         `http://localhost:5000/api/v1/questions/get-allQuestion/${examId}`,
+//         `https://digital-competency-platform-server.onrender.com/api/v1/questions/get-allQuestion/${examId}`,
 //         {
 //           headers: { Authorization: `${token}` },
 //         }
@@ -159,7 +159,7 @@
 //     const token = localStorage.getItem("approvalToken");
 
 //     axios
-//       .post("http://localhost:5000/api/v1/results/submit", payload, {
+//       .post("https://digital-competency-platform-server.onrender.com/api/v1/results/submit", payload, {
 //         headers: {
 //           Authorization: `${token}`,
 //         },
@@ -273,8 +273,6 @@
 
 // export default TestExam;
 
-
-
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
@@ -339,7 +337,9 @@ const TestExam: React.FC = () => {
     const stepNumber = parseInt(examId.slice(-1), 10);
 
     if (stepNumber > profile.examProgress.currentStep) {
-      setAccessError("You can't access this exam step before completing previous steps.");
+      setAccessError(
+        "You can't access this exam step before completing previous steps."
+      );
       setAccessAllowed(false);
       setShowAccessModal(true);
       setLoading(false);
@@ -372,7 +372,7 @@ const TestExam: React.FC = () => {
 
     axios
       .get<{ success: boolean; data: Question[] }>(
-        `http://localhost:5000/api/v1/questions/get-allQuestion/${examId}`,
+        `https://digital-competency-platform-server.onrender.com/api/v1/questions/get-allQuestion/${examId}`,
         {
           headers: { Authorization: `${token}` },
         }
@@ -454,7 +454,7 @@ const TestExam: React.FC = () => {
 
     axios
       .post<{ success: boolean; data: SubmitResponse }>(
-        "http://localhost:5000/api/v1/results/submit",
+        "https://digital-competency-platform-server.onrender.com/api/v1/results/submit",
         payload,
         {
           headers: {
@@ -504,7 +504,9 @@ const TestExam: React.FC = () => {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
         <div className="bg-white rounded-lg p-8 max-w-md w-full shadow-lg text-center">
-          <h2 className="text-2xl font-bold mb-4 text-red-600">Access Denied</h2>
+          <h2 className="text-2xl font-bold mb-4 text-red-600">
+            Access Denied
+          </h2>
           <p className="mb-6 text-gray-700">{accessError}</p>
           <button
             onClick={handleCloseAccessModal}
@@ -535,9 +537,12 @@ const TestExam: React.FC = () => {
         </h2>
 
         <div className="mb-4 p-4 bg-gray-50 rounded-md border border-gray-200">
-          <p className="text-lg font-semibold">{currentQuestion.questionText}</p>
+          <p className="text-lg font-semibold">
+            {currentQuestion.questionText}
+          </p>
           <p className="text-sm italic text-gray-500">
-            Competency: {currentQuestion.competency} | Level: {currentQuestion.level}
+            Competency: {currentQuestion.competency} | Level:{" "}
+            {currentQuestion.level}
           </p>
         </div>
 
@@ -567,7 +572,11 @@ const TestExam: React.FC = () => {
         <div className="flex justify-between items-center">
           <span className="text-sm font-medium text-gray-700">
             Time left:{" "}
-            <span className={`font-bold ${timer <= 10 ? "text-red-600" : "text-gray-900"}`}>
+            <span
+              className={`font-bold ${
+                timer <= 10 ? "text-red-600" : "text-gray-900"
+              }`}
+            >
               {timer}s
             </span>
           </span>
@@ -588,10 +597,12 @@ const TestExam: React.FC = () => {
           <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 text-center">
             <h2 className="text-2xl font-bold mb-4">Exam Result</h2>
             <p className="mb-2 text-lg">
-              <span className="font-semibold">Score:</span> {submitResult.result.score.toFixed(2)}%
+              <span className="font-semibold">Score:</span>{" "}
+              {submitResult.result.score.toFixed(2)}%
             </p>
             <p className="mb-2 text-lg">
-              <span className="font-semibold">Certification Level:</span> {submitResult.certificationLevel}
+              <span className="font-semibold">Certification Level:</span>{" "}
+              {submitResult.certificationLevel}
             </p>
             <p
               className={`mb-6 text-xl font-semibold ${
@@ -624,4 +635,3 @@ const TestExam: React.FC = () => {
 };
 
 export default TestExam;
-

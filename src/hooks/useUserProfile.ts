@@ -21,9 +21,12 @@ const useUserProfile = () => {
   useEffect(() => {
     const token = localStorage.getItem("approvalToken");
     axios
-      .get("http://localhost:5000/api/v1/users/getProfile", {
-        headers: { Authorization: `${token}` },
-      })
+      .get(
+        "https://digital-competency-platform-server.onrender.com/api/v1/users/getProfile",
+        {
+          headers: { Authorization: `${token}` },
+        }
+      )
       .then((res) => {
         if (res.data.success) {
           setProfile(res.data.data);

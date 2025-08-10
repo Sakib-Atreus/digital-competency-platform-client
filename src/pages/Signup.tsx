@@ -5,20 +5,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CiSquarePlus } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 
-const signupSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  phone: z.string().min(6, "Phone number is required"),
-  email: z.string().email("Invalid email format"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  confirmPassword: z.string().min(6),
-  aggriedToTerms: z.boolean().refine(val => val === true, "You must agree to terms"),
-  image: z
-    .any()
-    .optional(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
+const signupSchema = z
+  .object({
+    name: z.string().min(2, "Name must be at least 2 characters"),
+    phone: z.string().min(6, "Phone number is required"),
+    email: z.string().email("Invalid email format"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string().min(6),
+    aggriedToTerms: z
+      .boolean()
+      .refine((val) => val === true, "You must agree to terms"),
+    image: z.any().optional(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 type SignupFormInputs = z.infer<typeof signupSchema>;
 
@@ -53,10 +55,13 @@ const Signup = () => {
     if (selectedFile) formData.append("image", selectedFile);
 
     try {
-      const response = await fetch("http://localhost:5000/api/v1/auth/createUser", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://digital-competency-platform-server.onrender.com/api/v1/auth/createUser",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const result = await response.json();
 
@@ -160,7 +165,9 @@ const Signup = () => {
               className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.confirmPassword && (
-              <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.confirmPassword.message}
+              </p>
             )}
           </div>
 
@@ -172,10 +179,14 @@ const Signup = () => {
                 {...register("aggriedToTerms")}
                 className="form-checkbox h-5 w-5 text-blue-600"
               />
-              <span className="ml-2 text-gray-700">I agree to the terms and conditions</span>
+              <span className="ml-2 text-gray-700">
+                I agree to the terms and conditions
+              </span>
             </label>
             {errors.aggriedToTerms && (
-              <p className="text-red-500 text-sm">{errors.aggriedToTerms.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.aggriedToTerms.message}
+              </p>
             )}
           </div>
 
@@ -211,7 +222,9 @@ const Signup = () => {
           </div>
 
           {/* API Error */}
-          {apiError && <p className="text-red-500 text-center mb-3">{apiError}</p>}
+          {apiError && (
+            <p className="text-red-500 text-center mb-3">{apiError}</p>
+          )}
 
           <button
             type="submit"

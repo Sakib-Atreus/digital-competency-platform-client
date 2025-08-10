@@ -17,11 +17,14 @@ const ExamsList: React.FC = () => {
   useEffect(() => {
     const token = localStorage.getItem("approvalToken");
     axios
-      .get<{ success: boolean; data: Exam[] }>("http://localhost:5000/api/v1/exams/all", {
-        headers: {
-          Authorization: `${token}`,
-        },
-      })
+      .get<{ success: boolean; data: Exam[] }>(
+        "https://digital-competency-platform-server.onrender.com/api/v1/exams/all",
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      )
       .then((res) => {
         if (res.data.success) {
           setExams(res.data.data);
@@ -36,7 +39,9 @@ const ExamsList: React.FC = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-50">
-        <p className="text-lg font-medium text-gray-700 animate-pulse">Loading exams...</p>
+        <p className="text-lg font-medium text-gray-700 animate-pulse">
+          Loading exams...
+        </p>
       </div>
     );
   }
@@ -76,7 +81,9 @@ const ExamsList: React.FC = () => {
               }
             }}
           >
-            <h2 className="text-2xl font-semibold text-indigo-900">{exam.title || "Untitled Exam"}</h2>
+            <h2 className="text-2xl font-semibold text-indigo-900">
+              {exam.title || "Untitled Exam"}
+            </h2>
           </li>
         ))}
       </ul>

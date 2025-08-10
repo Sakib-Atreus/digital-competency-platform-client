@@ -33,11 +33,14 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/v1/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "https://digital-competency-platform-server.onrender.com/api/v1/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
 
       const result = await response.json();
 
@@ -78,7 +81,9 @@ const Login = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
           {/* Email Field */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               {...register("email")}
@@ -91,7 +96,9 @@ const Login = () => {
 
           {/* Password Field */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               {...register("password")}
@@ -103,7 +110,9 @@ const Login = () => {
           </div>
 
           {/* API Error */}
-          {apiError && <p className="text-red-500 text-center mb-3">{apiError}</p>}
+          {apiError && (
+            <p className="text-red-500 text-center mb-3">{apiError}</p>
+          )}
 
           <div className="mb-3">
             <p>
