@@ -10,6 +10,8 @@ import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Form from "@/pages/Form";
 import Services from "@/pages/Services";
+import TestExam from "@/pages/TestExam";
+import ExamsList from "@/pages/ExamList";
 
 const routes = createBrowserRouter([
   {
@@ -19,6 +21,14 @@ const routes = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/test-exam",
+        element: <ExamsList/>,
+      },
+      {
+        path: "/test-exam/:examId",
+        element: <TestExam/>,
       },
       {
         path: "/about",

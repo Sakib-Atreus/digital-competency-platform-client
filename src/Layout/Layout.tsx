@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 
 const Layout: React.FC = () => {
   return (
-    <div>
+    <div className="min-h-screen">
       <Navbar />
       <main>
         <Outlet />

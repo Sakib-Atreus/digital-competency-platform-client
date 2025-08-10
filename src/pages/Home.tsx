@@ -1,41 +1,29 @@
+import { useNavigate } from "react-router-dom";
 import CommonWrapper from "../common/CommonWrapper";
-import {
-  decrement,
-  increment,
-  reset,
-} from "@/store/Slices/counterSlice/counterSlice";
-import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
 
 const Home = () => {
-  const count = useAppSelector((state) => state.counter.value);
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   return (
     <CommonWrapper>
-      <div className="h-screen bg-website-color-lightGreen">
-        <div className="flex flex-col items-center justify-center min-h-screen ">
-          <h1 className="text-2xl font-bold mb-4">Home Page</h1>
-          <h2 className="text-xl font-bold">Counter: {count}</h2>
-          <div className="mt-4 space-x-2">
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded"
-              onClick={() => dispatch(increment())}
-            >
-              Increment
-            </button>
-            <button
-              className="bg-red-500 text-white px-4 py-2 rounded"
-              onClick={() => dispatch(decrement())}
-            >
-              Decrement
-            </button>
-            <button
-              className="bg-gray-500 text-white px-4 py-2 rounded"
-              onClick={() => dispatch(reset())}
-            >
-              Reset
-            </button>
-          </div>
+      <div className="h-screen bg-gradient-to-br from-green-100 to-green-300 flex items-center justify-center px-4">
+        <div className="max-w-3xl text-center p-8 bg-white bg-opacity-90 rounded-lg shadow-lg">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-green-900 mb-6">
+            Welcome to Test School Competency Assessment Platform
+          </h1>
+
+          <p className="text-lg md:text-xl text-green-800 mb-8 leading-relaxed">
+            Empower your skills by taking carefully designed competency exams. Track your progress,
+            unlock new levels, and prove your expertise with confidence.
+          </p>
+
+          <button
+            onClick={() => navigate("/test-exam")}
+            className="inline-block px-8 py-3 bg-green-700 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-green-800 transition"
+            aria-label="Go to available exams"
+          >
+            View Available Exams
+          </button>
         </div>
       </div>
     </CommonWrapper>

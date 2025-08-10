@@ -7,12 +7,17 @@ import { useNavigate } from "react-router-dom";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
+  phone: z.string().min(6, "Phone number is required"),
   email: z.string().email("Invalid email format"),
   password: z.string().min(6, "Password must be at least 6 characters"),
+  confirmPassword: z.string().min(6),
+  aggriedToTerms: z.boolean().refine(val => val === true, "You must agree to terms"),
   image: z
     .any()
-    .refine((file) => file, "Image is required")
     .optional(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
 type SignupFormInputs = z.infer<typeof signupSchema>;
@@ -20,6 +25,8 @@ type SignupFormInputs = z.infer<typeof signupSchema>;
 const Signup = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -32,15 +39,40 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit = (data: SignupFormInputs) => {
+  const onSubmit = async (data: SignupFormInputs) => {
+    setApiError(null);
+    setLoading(true);
+
     const formData = new FormData();
     formData.append("name", data.name);
+    formData.append("phone", data.phone);
     formData.append("email", data.email);
     formData.append("password", data.password);
+    formData.append("confirmPassword", data.confirmPassword);
+    formData.append("aggriedToTerms", String(data.aggriedToTerms));
     if (selectedFile) formData.append("image", selectedFile);
 
-    console.log("Signup Data:", Object.fromEntries(formData));
-    navigate("/login");
+    try {
+      const response = await fetch("http://localhost:5000/api/v1/auth/createUser", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        setApiError(result.message || "Signup failed");
+        setLoading(false);
+        return;
+      }
+
+      console.log("Signup successful:", result);
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      setApiError("Network error");
+      setLoading(false);
+    }
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +101,21 @@ const Signup = () => {
             />
             {errors.name && (
               <p className="text-red-500 text-sm">{errors.name.message}</p>
+            )}
+          </div>
+
+          {/* Phone Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Phone
+            </label>
+            <input
+              type="text"
+              {...register("phone")}
+              className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.phone && (
+              <p className="text-red-500 text-sm">{errors.phone.message}</p>
             )}
           </div>
 
@@ -101,11 +148,42 @@ const Signup = () => {
               <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
           </div>
+
+          {/* Confirm Password Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              {...register("confirmPassword")}
+              className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+            )}
+          </div>
+
+          {/* Terms Checkbox */}
+          <div className="mb-4">
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                {...register("aggriedToTerms")}
+                className="form-checkbox h-5 w-5 text-blue-600"
+              />
+              <span className="ml-2 text-gray-700">I agree to the terms and conditions</span>
+            </label>
+            {errors.aggriedToTerms && (
+              <p className="text-red-500 text-sm">{errors.aggriedToTerms.message}</p>
+            )}
+          </div>
+
+          {/* Profile Picture */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               Profile Picture
             </label>
-            {/* input box  */}
             <div
               className="relative w-full h-36 border-2 border-dashed border-gray-400 rounded-lg flex items-center justify-center cursor-pointer hover:border-blue-500 transition"
               onClick={() => document.getElementById("fileInput")?.click()}
@@ -130,18 +208,19 @@ const Signup = () => {
               className="hidden"
               onChange={handleImageChange}
             />
-            {errors.image?.message &&
-              typeof errors.image.message === "string" && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.image.message}
-                </p>
-              )}
           </div>
+
+          {/* API Error */}
+          {apiError && <p className="text-red-500 text-center mb-3">{apiError}</p>}
+
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+            disabled={loading}
+            className={`w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 ${
+              loading ? "opacity-60 cursor-not-allowed" : ""
+            }`}
           >
-            Signup
+            {loading ? "Signing up..." : "Signup"}
           </button>
         </form>
       </div>
