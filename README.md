@@ -56,7 +56,7 @@ Create a .env file in the root directory with the following environment variable
 
 env
 
-REACT_APP_API_BASE_URL=http://localhost:5000/api/v1
+VITE_BASE_URL=http://localhost:5000/api/v1
 
 ```
 
