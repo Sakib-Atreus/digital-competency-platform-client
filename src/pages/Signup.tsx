@@ -56,7 +56,7 @@ const Signup = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/auth/createUser`,
+        `${import.meta.env.VITE_BASE_URL}/users/createUser`,
         {
           method: "POST",
           body: formData,

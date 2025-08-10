@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
 
 const AdminRoute = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector((state: RootState) => (state.auth as any).user);
 
   // Check if the user is logged in and is an admin
   if (!user || user.role !== "admin") {
